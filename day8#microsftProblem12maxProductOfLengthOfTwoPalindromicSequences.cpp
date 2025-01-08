@@ -1,13 +1,13 @@
 class Solution {
 public:
-    void generateAll(int index, int n, int mask, string output, string &s, vector<string>& subs, vector<pair<int, int> >& masks)
+    void generateAll(int index, int n, int mask, string output, string &s, vector<string>& subs, vector<int>& masks)
     {
         if (index >= n)
         {
             if (output.size())
             {
                 subs.push_back(output);
-                masks.push_back({mask, output.size()});
+                masks.push_back(mask);
             }
 
             return;
@@ -31,9 +31,9 @@ public:
         return true;
     }
 
-    vector<pair<int, int> > getPalinMasks(vector<string>& subs, vector<pair<int, int> >& masks, int n)
+    vector<int> getPalinMasks(vector<string>& subs, vector<int>& masks, int n)
     {
-        vector<pair<int, int> > newMasks;
+        vector<int> newMasks;
 
         for (int i = 0; i < n; i++)
         {
@@ -52,7 +52,7 @@ public:
 
     int maxProduct(string s) {
         vector<string> subs;
-        vector<pair<int, int> > masks;
+        vector<int> masks;
         
         generateAll(0, s.size(), 0, "", s, subs, masks);
 
@@ -64,9 +64,9 @@ public:
         {
             for (int j = i + 1; j < masks.size(); j++)
             {
-                if (isDisjoint(masks[i].first, masks[j].first))
+                if (isDisjoint(masks[i], masks[j]))
                 {
-                    int prod = masks[i].second * masks[j].second;
+                    int prod = __builtin_popcount(masks[i]) * __builtin_popcount(masks[j]);
                     ans = max(prod, ans);
                 }
             }
