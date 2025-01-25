@@ -1,35 +1,29 @@
 class Solution {
-public:
-    void track(int index, int n, string *s, string &digits, string &output, vector<string>& ans)
-    {
-        if (index >= n)
+  public:
+    vector<int> findTwoElement(vector<int>& arr) {
+        // code here
+        int n = arr.size();
+        
+        long long sum = 0, eSum = 0;
+        long long sqSum = 0, esqSum = 0;
+        
+        for (int i = 0; i < n; i++)
         {
-            ans.push_back(output);
-            return;
+            sum += arr[i];
+            eSum += (i + 1);
+            
+            sqSum += (long long)arr[i] * arr[i];
+            esqSum += (long long)(i + 1) * (i + 1);
         }
-
-        int curr = digits[index] - '0';
-
-        for (char x : s[curr])
-        {
-            output += x;
-            track(index + 1, n, s, digits, output, ans);
-            output.pop_back();
-        }
-    }
-
-    vector<string> letterCombinations(string digits) {
-        if (digits.size() == 0) {
-            return {};
-        }
-
-        string s[] = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
-
-        vector<string> ans;
-        string output;
-
-        track(0, digits.size(), s, digits, output, ans);
-
-        return ans;
+        
+        long long xmiy = sum - eSum;
+        long long xsqy = sqSum - esqSum;
+        
+        long long xpy = xsqy / xmiy;
+        
+        long long x = (xpy + xmiy) / 2;
+        long long y = xpy - x;
+        
+        return {(int)x, (int)y};
     }
 };
